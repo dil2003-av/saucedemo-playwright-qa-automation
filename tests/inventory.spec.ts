@@ -169,4 +169,17 @@ test('TC_INV_014 - User can sort products by price low to high', async ({ page }
   expect(numericPrices).toEqual([...numericPrices].sort((a, b) => a - b));
 });
 
+test('TC_INV_015 - User can sort products by price high to low', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('hilo');
+
+  const prices = await inventoryPage.productPrices.allTextContents();
+
+  const numericPrices = prices.map(price =>
+    Number(price.replace('$', ''))
+  );
+
+  expect(numericPrices).toEqual([...numericPrices].sort((a, b) => b - a));
+});
 });
