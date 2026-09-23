@@ -190,5 +190,22 @@ test('TC_INV_016 - User can open product details', async ({ page }) => {
 
   await expect(page).toHaveURL(/inventory-item/);
 });
+test('TC_INV_017 - Add to Cart button changes to Remove', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  const product = inventoryPage.inventoryItems.filter({
+    hasText: 'Sauce Labs Backpack',
+  });
+
+  await expect(
+    product.getByRole('button', { name: 'Add to cart' })
+  ).toBeVisible();
+
+  await inventoryPage.addProductToCart('Sauce Labs Backpack');
+
+  await expect(
+    product.getByRole('button', { name: 'Remove' })
+  ).toBeVisible();
+});
 
 });
