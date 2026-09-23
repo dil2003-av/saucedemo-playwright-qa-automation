@@ -136,5 +136,16 @@ test.describe('Inventory Functionality', () => {
 
     await expect(page).toHaveURL(/\/$/);
   });
+  test('TC_INV_012 - User can sort products A to Z', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('az');
+
+  const names = await inventoryPage.productNames.allTextContents();
+
+  expect(names).toEqual([...names].sort());
+});
+
+
 
 });
