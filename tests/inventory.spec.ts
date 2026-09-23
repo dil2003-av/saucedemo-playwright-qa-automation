@@ -136,5 +136,76 @@ test.describe('Inventory Functionality', () => {
 
     await expect(page).toHaveURL(/\/$/);
   });
+  test('TC_INV_012 - User can sort products A to Z', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('az');
+
+  const names = await inventoryPage.productNames.allTextContents();
+
+  expect(names).toEqual([...names].sort());
+});
+
+test('TC_INV_013 - User can sort products Z to A', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('za');
+
+  const names = await inventoryPage.productNames.allTextContents();
+
+  expect(names).toEqual([...names].sort().reverse());
+});
+test('TC_INV_014 - User can sort products by price low to high', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('lohi');
+
+  const prices = await inventoryPage.productPrices.allTextContents();
+
+  const numericPrices = prices.map(price =>
+    Number(price.replace('$', ''))
+  );
+
+  expect(numericPrices).toEqual([...numericPrices].sort((a, b) => a - b));
+});
+
+test('TC_INV_015 - User can sort products by price high to low', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('hilo');
+
+  const prices = await inventoryPage.productPrices.allTextContents();
+
+  const numericPrices = prices.map(price =>
+    Number(price.replace('$', ''))
+  );
+
+  expect(numericPrices).toEqual([...numericPrices].sort((a, b) => b - a));
+});
+
+test('TC_INV_016 - User can open product details', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.openProduct('Sauce Labs Backpack');
+
+  await expect(page).toHaveURL(/inventory-item/);
+});
+test('TC_INV_017 - Add to Cart button changes to Remove', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  const product = inventoryPage.inventoryItems.filter({
+    hasText: 'Sauce Labs Backpack',
+  });
+
+  await expect(
+    product.getByRole('button', { name: 'Add to cart' })
+  ).toBeVisible();
+
+  await inventoryPage.addProductToCart('Sauce Labs Backpack');
+
+  await expect(
+    product.getByRole('button', { name: 'Remove' })
+  ).toBeVisible();
+});
 
 });
