@@ -155,5 +155,18 @@ test('TC_INV_013 - User can sort products Z to A', async ({ page }) => {
 
   expect(names).toEqual([...names].sort().reverse());
 });
+test('TC_INV_014 - User can sort products by price low to high', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.sortProducts('lohi');
+
+  const prices = await inventoryPage.productPrices.allTextContents();
+
+  const numericPrices = prices.map(price =>
+    Number(price.replace('$', ''))
+  );
+
+  expect(numericPrices).toEqual([...numericPrices].sort((a, b) => a - b));
+});
 
 });
