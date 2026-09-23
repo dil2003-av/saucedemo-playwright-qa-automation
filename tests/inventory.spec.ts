@@ -182,4 +182,13 @@ test('TC_INV_015 - User can sort products by price high to low', async ({ page }
 
   expect(numericPrices).toEqual([...numericPrices].sort((a, b) => b - a));
 });
+
+test('TC_INV_016 - User can open product details', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
+
+  await inventoryPage.openProduct('Sauce Labs Backpack');
+
+  await expect(page).toHaveURL(/inventory-item/);
+});
+
 });
