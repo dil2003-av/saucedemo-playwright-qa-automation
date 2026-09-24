@@ -25,9 +25,14 @@ export class InventoryPage {
     this.productNames = page.locator('.inventory_item_name');
     this.productPrices = page.locator('.inventory_item_price');
     this.productDescriptions = page.locator('.inventory_item_desc');
+
+    // Select the product image elements directly
     this.productImages = page.locator('.inventory_item_img img');
 
-    this.sortDropdown = page.locator('[data-test="product-sort-container"]');
+    this.sortDropdown = page.locator(
+      '[data-test="product-sort-container"]'
+    );
+
     this.cartLink = page.locator('.shopping_cart_link');
     this.cartBadge = page.locator('.shopping_cart_badge');
 
@@ -44,7 +49,9 @@ export class InventoryPage {
       hasText: productName,
     });
 
-    await product.locator('button').click();
+    await product.getByRole('button', {
+      name: 'Add to cart',
+    }).click();
   }
 
   async removeProductFromCart(productName: string) {
@@ -52,7 +59,9 @@ export class InventoryPage {
       hasText: productName,
     });
 
-    await product.locator('button').click();
+    await product.getByRole('button', {
+      name: 'Remove',
+    }).click();
   }
 
   async sortProducts(option: string) {
@@ -73,6 +82,14 @@ export class InventoryPage {
   }
 
   async openProduct(productName: string) {
-    await this.page.locator('.inventory_item_name', { hasText: productName }).click();
+    const product = this.inventoryItems.filter({
+      hasText: productName,
+    });
+
+    await product
+      .locator('.inventory_item_name')
+      .click();
+
+    await this.page.waitForURL(/inventory-item/);
   }
 }
