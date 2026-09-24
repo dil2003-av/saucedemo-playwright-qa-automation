@@ -54,12 +54,7 @@ export class InventoryPage {
 
     await product.locator('button').click();
   }
-async openProduct(productName: string) {
-  await this.inventoryItems
-    .filter({ hasText: productName })
-    .locator('.inventory_item_name')
-    .click();
-}
+
   async sortProducts(option: string) {
     await this.sortDropdown.selectOption(option);
   }
@@ -75,5 +70,9 @@ async openProduct(productName: string) {
   async logout() {
     await this.openMenu();
     await this.logoutLink.click();
+  }
+
+  async openProduct(productName: string) {
+    await this.page.locator('.inventory_item_name', { hasText: productName }).click();
   }
 }
