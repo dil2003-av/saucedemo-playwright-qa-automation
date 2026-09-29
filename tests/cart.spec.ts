@@ -35,7 +35,7 @@ test.describe('Cart Functionality', () => {
     const cartPage = new CartPage(page);
 
     await expect(
-      cartPage.cartItemNames
+      cartPage.cartItemNames.first()
     ).toHaveText('Sauce Labs Backpack');
   });
 
@@ -43,7 +43,7 @@ test.describe('Cart Functionality', () => {
     const cartPage = new CartPage(page);
 
     await expect(
-      cartPage.cartItemPrices
+      cartPage.cartItemPrices.first()
     ).toHaveText('$29.99');
   });
 
@@ -51,11 +51,11 @@ test.describe('Cart Functionality', () => {
     const cartPage = new CartPage(page);
 
     await expect(
-      cartPage.cartItemDescriptions
+      cartPage.cartItemDescriptions.first()
     ).toBeVisible();
 
     await expect(
-      cartPage.cartItemDescriptions
+      cartPage.cartItemDescriptions.first()
     ).not.toBeEmpty();
   });
 
@@ -113,9 +113,7 @@ test.describe('Cart Functionality', () => {
 
     await expect(cartPage.cartItems).toHaveCount(2);
 
-    await expect(
-      cartPage.cartItemNames
-    ).toContainText([
+    await expect(cartPage.cartItemNames).toHaveText([
       'Sauce Labs Backpack',
       'Sauce Labs Bike Light',
     ]);
@@ -142,7 +140,7 @@ test.describe('Cart Functionality', () => {
     await expect(cartPage.cartItems).toHaveCount(1);
 
     await expect(
-      cartPage.cartItemNames
+      cartPage.cartItemNames.first()
     ).toHaveText('Sauce Labs Bike Light');
   });
 
@@ -173,7 +171,7 @@ test.describe('Cart Functionality', () => {
     await inventoryPage.openCart();
 
     await expect(
-      cartPage.cartItemNames
+      cartPage.cartItemNames.first()
     ).toHaveText('Sauce Labs Backpack');
 
     await expect(

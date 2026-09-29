@@ -26,13 +26,8 @@ export class CartPage {
       name: 'Remove',
     });
 
-    this.continueShoppingButton = page.getByRole('button', {
-      name: 'Continue Shopping',
-    });
-
-    this.checkoutButton = page.getByRole('button', {
-      name: 'Checkout',
-    });
+    this.continueShoppingButton = page.locator('[data-test="continue-shopping"]');
+    this.checkoutButton = page.locator('[data-test="checkout"]');
   }
 
   async getCartItemCount() {
