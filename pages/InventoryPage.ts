@@ -70,6 +70,7 @@ export class InventoryPage {
 
   async openCart() {
     await this.cartLink.click();
+    await this.page.waitForURL(/cart/);
   }
 
   async openMenu() {
