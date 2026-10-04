@@ -26,8 +26,8 @@ export class InventoryPage {
     this.productPrices = page.locator('.inventory_item_price');
     this.productDescriptions = page.locator('.inventory_item_desc');
 
-    // Select the product image elements directly
-    this.productImages = page.locator('.inventory_item_img img');
+    // Locate product images inside each inventory item
+    this.productImages = this.inventoryItems.locator('img');
 
     this.sortDropdown = page.locator(
       '[data-test="product-sort-container"]'
@@ -38,6 +38,16 @@ export class InventoryPage {
 
     this.menuButton = page.locator('#react-burger-menu-btn');
     this.logoutLink = page.locator('#logout_sidebar_link');
+  }
+
+  async waitForInventoryProducts() {
+    await this.inventoryContainer.waitFor({
+      state: 'visible',
+    });
+
+    await this.inventoryItems.first().waitFor({
+      state: 'visible',
+    });
   }
 
   async getProductCount() {
@@ -70,6 +80,7 @@ export class InventoryPage {
 
   async openCart() {
     await this.cartLink.click();
+
     await this.page.waitForURL(/cart/);
   }
 

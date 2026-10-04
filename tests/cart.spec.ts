@@ -6,23 +6,28 @@ import { users } from '../test-data/users';
 
 test.describe('Cart Functionality', () => {
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const inventoryPage = new InventoryPage(page);
+test.beforeEach(async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const inventoryPage = new InventoryPage(page);
+  const cartPage = new CartPage(page);
 
-    await loginPage.navigate();
+  await loginPage.navigate();
 
-    await loginPage.login(
-      users.standard.username,
-      users.standard.password
-    );
+  await loginPage.login(
+    users.standard.username,
+    users.standard.password
+  );
 
-    await inventoryPage.addProductToCart(
-      'Sauce Labs Backpack'
-    );
+  await inventoryPage.waitForInventoryProducts();
 
-    await inventoryPage.openCart();
-  });
+  await inventoryPage.addProductToCart(
+    'Sauce Labs Backpack'
+  );
+
+  await inventoryPage.openCart();
+
+  await cartPage.waitForCartItems();
+});
 
   test('TC_CART_001 - Cart page loads successfully', async ({ page }) => {
     const cartPage = new CartPage(page);
@@ -59,13 +64,13 @@ test.describe('Cart Functionality', () => {
     ).not.toBeEmpty();
   });
 
-  test('TC_CART_005 - Cart displays correct number of products', async ({ page }) => {
-    const cartPage = new CartPage(page);
+test('TC_CART_005 - Cart displays correct number of products', async ({ page }) => {
+  const cartPage = new CartPage(page);
 
-    const itemCount = await cartPage.getCartItemCount();
-
-    expect(itemCount).toBe(1);
-  });
+  await expect(
+    cartPage.cartItems
+  ).toHaveCount(1);
+});
 
   test('TC_CART_006 - User can remove product from cart', async ({ page }) => {
     const cartPage = new CartPage(page);

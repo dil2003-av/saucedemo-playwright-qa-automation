@@ -5,16 +5,19 @@ import { users } from '../test-data/users';
 
 test.describe('Inventory Functionality', () => {
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+test.beforeEach(async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const inventoryPage = new InventoryPage(page);
 
-    await loginPage.navigate();
+  await loginPage.navigate();
 
-    await loginPage.login(
-      users.standard.username,
-      users.standard.password
-    );
-  });
+  await loginPage.login(
+    users.standard.username,
+    users.standard.password
+  );
+
+  await inventoryPage.waitForInventoryProducts();
+});
 
   test('TC_INV_001 - Inventory page loads successfully', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
@@ -47,31 +50,29 @@ test.describe('Inventory Functionality', () => {
     expect(productCount).toBe(6);
   });
 
-  test('TC_INV_004 - Product prices are displayed', async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
+test('TC_INV_004 - Product prices are displayed', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
 
-    const productCount =
-      await inventoryPage.productPrices.count();
+  await expect(
+    inventoryPage.productPrices
+  ).toHaveCount(6);
 
-    expect(productCount).toBe(6);
+  await expect(
+    inventoryPage.productPrices.first()
+  ).toBeVisible();
+});
 
-    await expect(
-      inventoryPage.productPrices.first()
-    ).toBeVisible();
-  });
+test('TC_INV_005 - Product descriptions are displayed', async ({ page }) => {
+  const inventoryPage = new InventoryPage(page);
 
-  test('TC_INV_005 - Product descriptions are displayed', async ({ page }) => {
-    const inventoryPage = new InventoryPage(page);
+  await expect(
+    inventoryPage.productDescriptions
+  ).toHaveCount(6);
 
-    const productCount =
-      await inventoryPage.productDescriptions.count();
-
-    expect(productCount).toBe(6);
-
-    await expect(
-      inventoryPage.productDescriptions.first()
-    ).toBeVisible();
-  });
+  await expect(
+    inventoryPage.productDescriptions.first()
+  ).toBeVisible();
+});
 
   test('TC_INV_006 - Product images are displayed', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
