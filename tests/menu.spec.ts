@@ -165,4 +165,3 @@ test.describe('Menu / Sidebar Functionality', () => {
   });
 
 });
-npx playwright test tests/menu.spec.ts
