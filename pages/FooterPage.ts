@@ -3,23 +3,23 @@ import { Page, Locator } from '@playwright/test';
 
 export class FooterPage {
   readonly page: Page;
-
   readonly footer: Locator;
   readonly copyrightText: Locator;
   readonly socialLinks: Locator;
-  readonly twitterLink: Locator;
+  readonly xLink: Locator;
   readonly facebookLink: Locator;
   readonly linkedinLink: Locator;
+  
 
   constructor(page: Page) {
     this.page = page;
-
     this.footer = page.locator('.footer');
     this.copyrightText = page.locator('.footer_copy');
-    this.socialLinks = page.locator('.social');
-    this.twitterLink = page.locator('.social_twitter a');
-    this.facebookLink = page.locator('.social_facebook a');
-    this.linkedinLink = page.locator('.social_linkedin a');
+    this.socialLinks = page.locator('.social a');
+
+    this.xLink = this.socialLinks.filter({ hasText: 'X' });
+    this.facebookLink = this.socialLinks.filter({ hasText: 'Facebook' });
+    this.linkedinLink = this.socialLinks.filter({ hasText: 'LinkedIn' });
   }
 
   async waitForFooter() {
