@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 
 test.describe('End-to-End Testing - SauceDemo', () => {
@@ -23,7 +22,6 @@ test.describe('End-to-End Testing - SauceDemo', () => {
     await expect(page.locator('.inventory_item')).toHaveCount(6);
   });
 
-
   // TC_E2E_003 - Verify product details navigation
   test('TC_E2E_003 - Verify user can view product details', async ({ page }) => {
     await page.locator('.inventory_item_name').first().click();
@@ -47,7 +45,8 @@ test.describe('End-to-End Testing - SauceDemo', () => {
     await page.locator('.shopping_cart_link').click();
 
     await expect(page).toHaveURL(/cart.html/);
-    await expect(page.locator('.inventory_item_name'))
+    // Fixed strict mode issue using .first()
+    await expect(page.locator('.inventory_item_name').first())
       .toHaveText('Sauce Labs Backpack');
   });
 
@@ -87,7 +86,7 @@ test.describe('End-to-End Testing - SauceDemo', () => {
 
     await expect(page).toHaveURL(/checkout-step-two.html/);
     await expect(page.locator('.summary_info')).toBeVisible();
-    await expect(page.locator('.inventory_item_name'))
+    await expect(page.locator('.inventory_item_name').first())
       .toHaveText('Sauce Labs Backpack');
   });
 
