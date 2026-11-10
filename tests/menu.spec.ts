@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
@@ -143,6 +142,8 @@ test.describe('Menu / Sidebar Functionality', () => {
 
     await menuPage.openMenu();
     await menuPage.resetAppState();
+
+    await page.reload();
 
     const backpack = inventoryPage.inventoryItems.filter({
       hasText: 'Sauce Labs Backpack',
