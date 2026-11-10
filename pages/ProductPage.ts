@@ -18,10 +18,12 @@ export class ProductPage {
     this.productPrice = page.locator('.inventory_details_price');
     this.productDescription = page.locator('.inventory_details_desc');
     this.productImage = page.locator('.inventory_details_img');
-    this.addToCartButton = page.getByRole('button', {
+    
+    // Scoped specifically to product details container to avoid strict mode violations
+    this.addToCartButton = page.locator('.inventory_details_desc_container').getByRole('button', {
       name: 'Add to cart',
     });
-    this.removeButton = page.getByRole('button', {
+    this.removeButton = page.locator('.inventory_details_desc_container').getByRole('button', {
       name: 'Remove',
     });
     this.backToProductsButton = page.getByRole('button', {
