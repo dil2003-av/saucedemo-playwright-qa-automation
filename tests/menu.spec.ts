@@ -165,5 +165,3 @@ test.describe('Menu / Sidebar Functionality', () => {
 
     await expect(menuPage.sidebar).toBeVisible();
   });
-
-});
