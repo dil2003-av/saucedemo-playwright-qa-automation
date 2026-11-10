@@ -143,7 +143,6 @@ test.describe('Menu / Sidebar Functionality', () => {
     await menuPage.openMenu();
     await menuPage.resetAppState();
 
-    // Reload page to ensure the DOM reflects the reset app state
     await page.reload();
 
     const backpack = inventoryPage.inventoryItems.filter({
