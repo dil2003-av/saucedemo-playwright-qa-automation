@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
@@ -144,6 +143,9 @@ test.describe('Menu / Sidebar Functionality', () => {
     await menuPage.openMenu();
     await menuPage.resetAppState();
 
+    // Reload page to ensure the DOM reflects the reset app state
+    await page.reload();
+
     const backpack = inventoryPage.inventoryItems.filter({
       hasText: 'Sauce Labs Backpack',
     });
@@ -165,4 +167,3 @@ test.describe('Menu / Sidebar Functionality', () => {
   });
 
 });
-npx playwright test tests/menu.spec.ts
